@@ -1,1 +1,23 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Shop - Agendamento Banho e Tosa</title> 
+    <link rel="stylesheet" href="/css/style.css">  // Adiciona o link para o arquivo CSS
+</head>
+<body>
+    <header>
+        <h1>Pet Shop - Banho e Tosa</h1>
+        <nav>
+            <a href="/">Agendar Atendimento</a> | 
+            <a href="/listaPetAgenda">Agenda de Clientes</a> | 
+            <a href="/ajustaPetAgenda">Configurar Horários</a>
+        </nav>
+    </header>
+    <hr>
+    <main>
+        {{{body}}}
+    </main>
+</body>
+</html>

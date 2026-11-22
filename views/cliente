@@ -1,1 +1,63 @@
+<h2>Agendamento de Banho e Tosa</h2>
 
+<form action="/agendar" method="POST">
+    <div>
+        <label for="data">Selecione a Data:</label>
+        <input type="date" id="data" name="data" required>
+    </div>
+
+    <div>
+        <label for="horario">Horários Disponíveis:</label> 
+        <select id="horario" name="horario" required disabled>
+            <option value="">Selecione uma data primeiro...</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="nome">Nome do Cliente:</label>
+        <input type="text" id="nome" name="nome" required>
+    </div>
+
+    <div>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+    </div>
+
+    <button type="submit" id="btnAgendar" disabled>Confirmar Agendamento</button>
+</form>
+
+<script> // Script para atualizar os horários disponíveis com base na data selecionada
+const dataInput = document.getElementById('data');
+const horarioSelect = document.getElementById('horario');
+const btnAgendar = document.getElementById('btnAgendar');
+
+// Nao deixa pegar dias passados
+const hoje = new Date().toISOString().split('T')[0]; 
+dataInput.min = hoje;
+ // Adiciona um listener para quando a data for alterada
+dataInput.addEventListener('change', async () => {
+    const dataSelecionada = dataInput.value;
+    if (!dataSelecionada) return;
+
+    // Pega horarios disponíveis da data selecionada
+    const response = await fetch(`/horarios-disponiveis?data=${dataSelecionada}`);
+    const horarios = await response.json();
+
+    horarioSelect.innerHTML = ''; 
+    // Se não houver horários disponíveis, desabilita o select e o botão de agendamento
+    if (horarios.length === 0) {
+        horarioSelect.innerHTML = '<option value="">Sem horários disponíveis para este dia</option>';
+        horarioSelect.disabled = true;
+        btnAgendar.disabled = true;
+    } else {
+        horarios.forEach(h => { // Adiciona cada horário disponível ao select
+            const option = document.createElement('option'); // Cria um elemento option para cada horário
+            option.value = h.hora; // Define o valor do option como o horário
+            option.textContent = `${h.hora} (${h.vagasRestantes} vaga(s) restante(s))`; // Define o texto do option como o horário e o número de vagas restantes
+            horarioSelect.appendChild(option); // Adiciona o option ao select de horários
+        });
+        horarioSelect.disabled = false; // Habilita o select de horários e o botão de agendamento
+        btnAgendar.disabled = false;
+    }
+});
+</script>

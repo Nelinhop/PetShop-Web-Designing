@@ -1,1 +1,26 @@
+<h2>Agendamentos Realizados</h2>
 
+<table border="1" cellpadding="8">
+    <thead>
+        <tr> // Cabeçalho da tabela com os títulos das colunas
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Cliente</th>
+            <th>CPF</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each agendamentos}} // Itera sobre cada agendamento na lista de agendamentos
+        <tr>
+            <td>{{this.data}}</td>
+            <td>{{this.horario}}</td>
+            <td>{{this.cliente.nome}}</td>
+            <td>{{this.cliente.cpf}}</td>
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="4">Nenhum agendamento realizado até o momento.</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
